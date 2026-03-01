@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Enrollment Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image:
+            margin:0;
+            padding:20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: rgb(247, 240, 245);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #08acd4;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="formContainer"></div>
+
+    <script>
+        // Function to create the enrollment form
+        function createEnrollmentForm() {
+            const container = document.getElementById('formContainer');
+
+            // Create form element
+            const form = document.createElement('form');
+            form.id = 'enrollmentForm';
+
+            // Create name input
+            const nameLabel = document.createElement('label');
+            nameLabel.textContent = 'Full Name:';
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.id = 'name';
+            nameInput.name = 'name';
+            nameInput.required = true;
+
+            // Create email input
+            const emailLabel = document.createElement('label');
+            emailLabel.textContent = 'Email:';
+            const emailInput = document.createElement('input');
+            emailInput.type = 'email';
+            emailInput.id = 'email';
+            emailInput.name = 'email';
+            emailInput.required = true;
+
+            // Create age input
+            const ageLabel = document.createElement('label');
+            ageLabel.textContent = 'Age:';
+            const ageInput = document.createElement('input');
+            ageInput.type = 'number';
+            ageInput.id = 'age';
+            ageInput.name = 'age';
+            ageInput.required = true;
+            ageInput.min = 1;
+
+            // Create course selection
+            const courseLabel = document.createElement('label');
+            courseLabel.textContent = 'Select Course:';
+            const courseSelect = document.createElement('select');
+            courseSelect.id = 'course';
+            courseSelect.name = 'course';
+            courseSelect.required = true;
+
+            const courses = ['--Please choose an option--', 'computer science', 'electronics&communication', 'civil', 'automobile','mechanical'];
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course.toLowerCase();
+                option.textContent = course;
+                courseSelect.appendChild(option);
+            });
+
+            // Create submit button
+            const submitButton = document.createElement('button');
+            submitButton.type = 'submit';
+            submitButton.textContent = 'Enroll';
+
+            // Append all elements to the form
+            form.appendChild(nameLabel);
+            form.appendChild(nameInput);
+            form.appendChild(emailLabel);
+            form.appendChild(emailInput);
+            form.appendChild(ageLabel);
+            form.appendChild(ageInput);
+            form.appendChild(courseLabel);
+            form.appendChild(courseSelect);
+            form.appendChild(submitButton);
+
+            // Append form to container
+            container.appendChild(form);
+
+            // Create message div
+            const messageDiv = document.createElement('div');
+            messageDiv.id = 'message';
+            container.appendChild(messageDiv);
+
+            // Add event listener for form submission
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Get form data
+                const name = nameInput.value;
+                const email = emailInput.value;
+                const age = ageInput.value;
+                const course = courseSelect.value;
+
+                // Create a message to display
+                const message = `Enrollment Successful! \nName: ${name} \nEmail: ${email} \nAge: ${age} \nCourse: ${course}`;
+                
+                // Display the message
+                messageDiv.innerText = message;
+
+                // Optionally, reset the form
+                form.reset();
+            });
+        }
+
+        // Call the function to create the form
+        createEnrollmentForm();
+    </script>
+</body>
+</html>
