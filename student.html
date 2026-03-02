@@ -3,162 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Enrollment Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image:
-            margin:0;
-            padding:20px;
-        }
 
-        .container {
-            max-width: 400px;
-            margin: auto;
-            background: rgb(247, 240, 245);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #08acd4;
-        }
-
-        #message {
-            margin-top: 20px;
-            font-weight: bold;
-            text-align: center;
-        }
-    </style>
+    <title>Vaibhavi</title>
+    <link rel="stylesheet" href="student.css">
 </head>
 <body>
-    <div class="container" id="formContainer"></div>
+    <div class="container">
+        <div class="box1">
+            <img src="logo.jpg.jpeg" width="100px" height="80px">
+            
+            
+            <b>HOME</b>
+            <b>ABOUT-US</b>
+            <b>MENU</b>
+            <b>BLOG</b>
+            <b>CONTACT</b>
+            <b>PROFILE</b>
+        <div class="heading">
+            <b>SHANBHAG FISHLAND</b>
+        </div>
+        </div>
+        <div class="box2">
+            <div class="b1">
+                <h3>Veg-Items</h3>
+                <img src="VEG.JPG" width="380px" height="200px">
+                <li>Veg Noodles</li>
+                <li>Veg Schezwan Noodles</li>
+                <li>Gobi Manchurian</li>
+                <li>Paneer Manchurian</li>
+                <li>Paneer pepper Dry</li>
+                <li>Baby Corn Chilly</li>
+                <li>Dal Fry</li>
+                <li>Dal Thadka</li>
+                <li>Paneer Kadai</li>
+                <li>Veg FriedRice</li>
+                <li>Jeera Rice</li>
+                <li>Mushroom Fried Rice</li>
+            <div class="b1-rate">
+                <a>$160</a><br>
+                <a>$180</a><br>
+                <a>$140</a><br>
+                <a>$180</a><br>
+                <a>$180</a><br>
+                <a>$160</a><br>
+                <a>$120</a><br>
+                <a>$140</a><br>
+                <a>$200</a><br>
+                <a>$200</a><br>
+                <a>$250</a><br>
+                <a>$300</a>
+            </div>
 
-    <script>
-        // Function to create the enrollment form
-        function createEnrollmentForm() {
-            const container = document.getElementById('formContainer');
+            </div>
+            <div class="b2">
+                <h3>Non-Veg-Items</h3>
+                <img src="nonveg2.jpg" width="380px" height="200px">
+                <li>Chicken Dry Fry</li>
+                <li>Chicken Manchurian</li>
+                <li>Chicken Chilly</li>
+                <li>Chicken Pepper Dry</li>
+                <li>Chicken Ghee Roast</li>
+                <li>Chicken Kadai</li>
+                <li>Egg Masala</li>
+                <li>Prawns Gravy</li>
+                <li>Tisra Sukka</li>
+                <li>Chicken Biriyani</li>
+                <li>crab gravy</li>
+                <li>Fish Kabab</li>
+            <div class="b2-rate">
+                <a>$150</a><br>
+                <a>$120</a><br>
+                <a>$150</a><br>
+                <a>$200</a><br>
+                <a>$200</a><br>
+                <a>$250</a><br>
+                <a>$230</a><br>
+                <a>$250</a><br>
+                <a>$180</a><br>
+                <a>$180</a><br>
+                <a>$160</a><br>
+                <a>$150</a>
+            </div>
+            </div>
+            <div class="b3">
+                <h3>South And North Indian Items</h3>
+                <img src="SN.JPG" width="380px" height="200px">
+                <li>Idli/Dosa</li>
+                <li>Vada</li>
+                <li>Pongal</li>
+                <li>Poori Saagu</li>
+                <li>Roti/Naan/paratha</li>
+                <li>Mutta paratha</li>
+                <li>Egg Masala</li>
+                <li>Khichdi</li>
+                <li>Semiya</li>
+                <li>Veech paratha</li>
+                <li>Nehi Roast</li>
+                <li>Egg Uttappam</li>
+            <div class="b3-rate">
+                <a>$40</a><br>
+                <a>$50</a><br>
+                <a>$60</a><br>
+                <a>$70</a><br>
+                <a>$80</a><br>
+                <a>$90</a><br>
+                <a>$100</a><br>
+                <a>$110</a><br>
+                <a>$120</a><br>
+                <a>$130</a><br>
+                <a>$140</a><br>
+                <a>$150</a>
 
-            // Create form element
-            const form = document.createElement('form');
-            form.id = 'enrollmentForm';
+            </div>
 
-            // Create name input
-            const nameLabel = document.createElement('label');
-            nameLabel.textContent = 'Full Name:';
-            const nameInput = document.createElement('input');
-            nameInput.type = 'text';
-            nameInput.id = 'name';
-            nameInput.name = 'name';
-            nameInput.required = true;
+            </div>
 
-            // Create email input
-            const emailLabel = document.createElement('label');
-            emailLabel.textContent = 'Email:';
-            const emailInput = document.createElement('input');
-            emailInput.type = 'email';
-            emailInput.id = 'email';
-            emailInput.name = 'email';
-            emailInput.required = true;
-
-            // Create age input
-            const ageLabel = document.createElement('label');
-            ageLabel.textContent = 'Age:';
-            const ageInput = document.createElement('input');
-            ageInput.type = 'number';
-            ageInput.id = 'age';
-            ageInput.name = 'age';
-            ageInput.required = true;
-            ageInput.min = 1;
-
-            // Create course selection
-            const courseLabel = document.createElement('label');
-            courseLabel.textContent = 'Select Course:';
-            const courseSelect = document.createElement('select');
-            courseSelect.id = 'course';
-            courseSelect.name = 'course';
-            courseSelect.required = true;
-
-            const courses = ['--Please choose an option--', 'computer science', 'electronics&communication', 'civil', 'automobile','mechanical'];
-            courses.forEach(course => {
-                const option = document.createElement('option');
-                option.value = course.toLowerCase();
-                option.textContent = course;
-                courseSelect.appendChild(option);
-            });
-
-            // Create submit button
-            const submitButton = document.createElement('button');
-            submitButton.type = 'submit';
-            submitButton.textContent = 'Enroll';
-
-            // Append all elements to the form
-            form.appendChild(nameLabel);
-            form.appendChild(nameInput);
-            form.appendChild(emailLabel);
-            form.appendChild(emailInput);
-            form.appendChild(ageLabel);
-            form.appendChild(ageInput);
-            form.appendChild(courseLabel);
-            form.appendChild(courseSelect);
-            form.appendChild(submitButton);
-
-            // Append form to container
-            container.appendChild(form);
-
-            // Create message div
-            const messageDiv = document.createElement('div');
-            messageDiv.id = 'message';
-            container.appendChild(messageDiv);
-
-            // Add event listener for form submission
-            form.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent the default form submission
-
-                // Get form data
-                const name = nameInput.value;
-                const email = emailInput.value;
-                const age = ageInput.value;
-                const course = courseSelect.value;
-
-                // Create a message to display
-                const message = `Enrollment Successful! \nName: ${name} \nEmail: ${email} \nAge: ${age} \nCourse: ${course}`;
-                
-                // Display the message
-                messageDiv.innerText = message;
-
-                // Optionally, reset the form
-                form.reset();
-            });
-        }
-
-        // Call the function to create the form
-        createEnrollmentForm();
-    </script>
+        </div>
+        <div class="box3">
+            <b>We Serve</b>
+            <img src="fish2.jpg.jpeg" width="200px" height="170px;">
+        <div class="img1">
+            <img src="fish3.jpg.jpeg" width="200px" height="170px">
+        </div>
+        <div class="img2">
+            <img src="fish4.jpg.jpeg" width="200px" height="170px">
+        </div>
+        <div class="img3">
+            <img src="fish5.jpg.jpeg" width="200px" height="170px">
+        </div>
+        <div class="img4">
+            <img src="fish6.jpg.jpeg" width="200px" height="170px">
+        </div>
+        
+        </div>
 </body>
 </html>
