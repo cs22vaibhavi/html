@@ -1,0 +1,41 @@
+.container{
+    height:500px;
+    width:500px;
+    background-color: pink;
+    margin-left:400px;
+    margin-top: 60px;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+
+.container>P{
+    color:blue;
+    text-align: center;
+    padding:30px;
+    font-size: 20px;
+}
+
+.container>b{
+    color:blue;
+    text-align:center;
+    padding:130px;
+    position:absolute;
+    top:30px;
+
+}
+
+.container>h4{
+    text-align: center;
+    color:red;
+    position: absolute;
+    top:190px;
+    left:430px;
+}
+
+.container>li{
+    padding:5px;
+    position: relative;
+    top:40px;
+    left:25px;
+    color:green;
+}
