@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Ticket Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>🎬 Movie Ticket Booking</h1>
+
+    <form>
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter your name" required>
+
+        <label>Email</label>
+        <input type="email" placeholder="Enter your email" required>
+
+        <label>Select Movie</label>
+        <select required>
+            <option value="">--Choose Movie--</option>
+            <option>Pushpa 2</option>
+            <option>Kalki 2898 AD</option>
+            <option>Kantara</option>
+            <option>Leo</option>
+        </select>
+
+        <label>Select Date</label>
+        <input type="date" required>
+
+        <label>Select Time</label>
+        <select required>
+            <option value="">--Choose Time--</option>
+            <option>10:00 AM</option>
+            <option>1:30 PM</option>
+            <option>5:00 PM</option>
+            <option>9:00 PM</option>
+        </select>
+
+        <label>Number of Tickets</label>
+        <input type="number" min="1" max="10" placeholder="Enter tickets" required>
+
+        <label>Select Seat Type</label>
+        <select required>
+            <option>Silver - ₹150</option>
+            <option>Gold - ₹250</option>
+            <option>Platinum - ₹400</option>
+        </select>
+
+        <button type="submit">Book Now</button>
+    </form>
+</div>
+
+</body>
+</html>
