@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentSpace | Luxury Living</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; overflow-x: hidden; background: #f5f7fb; }
+
+        @keyframes slideUp { from { opacity:0; transform:translateY(50px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-15px); } }
+        @keyframes gradient { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+        @keyframes shine { 100% { left:150%; } }
+        @keyframes spin { 100% { transform:rotate(360deg); } }
+        @keyframes popupScale { 0% { transform:scale(0.5); opacity:0; } 70% { transform:scale(1.05); opacity:1; } 100% { transform:scale(1); } }
+        @keyframes shake { 0%,100% { transform:translateX(0); } 20% { transform:translateX(-8px); } 40% { transform:translateX(8px); } 60% { transform:translateX(-6px); } 80% { transform:translateX(6px); } }
+        @keyframes glowPulse { 0% { box-shadow:0 0 0 rgba(34,197,94,0.4); } 50% { box-shadow:0 0 40px rgba(34,197,94,0.9); } 100% { box-shadow:0 0 0 rgba(34,197,94,0.4); } }
+        @keyframes floatParticle { 0% { transform:translateY(0) scale(1); opacity:1; } 100% { transform:translateY(-250px) scale(0); opacity:0; } }
+
+        .animate-slide-up { animation: slideUp 0.7s ease forwards; }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .shake { animation: shake 0.4s ease; }
+        .success-popup { animation: popupScale 0.6s ease; }
+        .glow-success { animation: glowPulse 2s infinite; }
+
+        .gradient-bg { background: linear-gradient(-45deg,#2563eb,#1d4ed8,#3b82f6,#1e40af); background-size:400% 400%; animation: gradient 12s ease infinite; }
+        .glass { background:rgba(255,255,255,0.85); backdrop-filter:blur(18px); }
+
+        .input-box { transition: all 0.3s ease; }
+        .input-box:focus { transform:scale(1.02); box-shadow:0 0 15px rgba(59,130,246,0.3); }
+
+        .btnshine { position:relative; overflow:hidden; }
+        .btnshine::after { content:""; position:absolute; top:-50%; left:-100%; width:80%; height:200%; background:rgba(255,255,255,0.3); transform:rotate(25deg); }
+        .btnshine:hover::after { animation: shine 0.8s forwards; }
+
+        .property-card { transition: all 0.5s ease; }
+        .property-card:hover { transform:translateY(-15px) scale(1.03) rotateX(2deg); box-shadow:0 25px 50px rgba(0,0,0,0.2); }
+        .property-card img { transition: all 0.6s ease; }
+        .property-card:hover img { transform:scale(1.12); }
+
+        .loader { width:24px; height:24px; border:3px solid white; border-top:3px solid transparent; border-radius:50%; animation:spin 1s linear infinite; display:inline-block; }
+
+        .particle { position:fixed; width:10px; height:10px; border-radius:50%; pointer-events:none; z-index:9999; animation:floatParticle 3s linear forwards; }
+
+        .toast-show { animation: popupScale 0.5s ease; }
+        #modal-content { animation: popupScale 0.4s ease; }
+        #emi-modal-content { animation: popupScale 0.4s ease; }
+
+        .facility-tag { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .stat-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px 14px; text-align: center; }
+        .stat-box .val { font-size: 18px; font-weight: 700; color: #1e40af; }
+        .stat-box .lbl { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+        .emi-result-box { background: linear-gradient(135deg, #1d4ed8, #3b82f6); color: white; border-radius: 16px; padding: 20px; text-align: center; }
+        .range-slider { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px; background: #dbeafe; outline: none; }
+        .range-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #2563eb; cursor: pointer; box-shadow: 0 2px 8px rgba(37,99,235,0.4); }
+    </style>
+</head>
+
+<body>
+
+<!-- ===================== AUTH SECTION ===================== -->
+<section id="auth-section" class="min-h-screen gradient-bg flex items-center justify-center p-4 relative overflow-hidden">
+    <div class="absolute top-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-10 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-float" style="animation-delay:1s;"></div>
+
+    <div class="w-full max-w-md relative z-10">
+        <div class="text-center mb-8 animate-slide-up">
+            <h1 class="text-5xl font-extrabold text-white mb-3"><i class="fas fa-building"></i> RentSpace</h1>
+            <p class="text-blue-100 text-lg">Luxury Homes & Premium Living</p>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-2xl p-8 animate-slide-up" style="animation-delay:0.2s;">
+            <div class="flex p-1 bg-gray-100 rounded-2xl relative mb-7">
+                <div id="toggle-slider" class="absolute top-1 left-1 w-[48%] h-[85%] bg-white rounded-2xl shadow transition-all duration-300"></div>
+                <button id="tab-login" onclick="switchTab('login')" class="flex-1 py-3 font-semibold relative z-10 text-blue-600">Login</button>
+                <button id="tab-register" onclick="switchTab('register')" class="flex-1 py-3 font-semibold relative z-10 text-gray-500">Register</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="login-form" class="space-y-5">
+                <div>
+                    <label class="text-sm text-gray-600 font-medium">Email</label>
+                    <div class="relative mt-1">
+                        <i class="fas fa-envelope absolute left-3 top-4 text-gray-400"></i>
+                        <input type="email" id="login-email" required placeholder="you@example.com" class="input-box w-full pl-10 pr-4 py-3 border border-gray-200 rounded-2xl outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm text-gray-600 font-medium">Password</label>
+                    <div class="relative mt-1">
+                        <i class="fas fa-lock absolute left-3 top-4 text-gray-400"></i>
+                        <input type="password" id="login-password" required placeholder="••••••••" class="input-box w-full pl-10 pr-4 py-3 border border-gray-200 rounded-2xl outline-none">
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-2xl font-semibold transition btnshine">Login</button>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form id="register-form" class="space-y-5 hidden">
+                <div>
+                    <label class="text-sm text-gray-600 font-medium">Full Name</label>
+                    <div class="relative mt-1">
+                        <i class="fas fa-user absolute left-3 top-4 text-gray-400"></i>
+                        <input type="text" id="reg-name" required placeholder="John Doe" class="input-box w-full pl-10 pr-4 py-3 border border-gray-200 rounded-2xl outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm text-gray-600 font-medium">Email</label>
+                    <div class="relative mt-1">
+                        <i class="fas fa-envelope absolute left-3 top-4 text-gray-400"></i>
+                        <input type="email" id="reg-email" required placeholder="you@example.com" class="input-box w-full pl-10 pr-4 py-3 border border-gray-200 rounded-2xl outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm text-gray-600 font-medium">Password</label>
+                    <div class="relative mt-1">
+                        <i class="fas fa-lock absolute left-3 top-4 text-gray-400"></i>
+                        <input type="password" id="reg-password" required placeholder="••••••••" class="input-box w-full pl-10 pr-4 py-3 border border-gray-200 rounded-2xl outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm text-gray-600 font-medium">Confirm Password</label>
+                    <div class="relative mt-1">
+                        <i class="fas fa-lock absolute left-3 top-4 text-gray-400"></i>
+                        <input type="password" id="reg-confirm" required placeholder="••••••••" class="input-box w-full pl-10 pr-4 py-3 border border-gray-200 rounded-2xl outline-none">
+                    </div>
+                </div>
+                <button type="submit" id="register-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-2xl font-semibold transition btnshine">Create Account</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== MAIN APP ===================== -->
+<main id="app-section" class="hidden">
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 w-full z-50 glass shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600"><i class="fas fa-building"></i> RentSpace</h1>
+            <div class="flex items-center gap-5">
+                <div class="bg-blue-100 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center font-bold"><i class="fas fa-user"></i></div>
+                <div>
+                    <p class="font-semibold" id="nav-user-name">User</p>
+                    <p class="text-xs text-gray-500">Welcome Back</p>
+                </div>
+                <button onclick="logout()" class="text-red-500 hover:scale-110 transition"><i class="fas fa-sign-out-alt text-xl"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="pt-36 pb-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10">
+            <div class="absolute top-20 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+        </div>
+        <div class="relative z-10">
+            <h1 class="text-6xl font-extrabold mb-5 animate-slide-up">Find Your Dream Home</h1>
+            <p class="text-xl text-blue-100 mb-10 animate-slide-up" style="animation-delay:0.2s;">Luxury homes with premium experiences</p>
+        </div>
+    </section>
+
+    <!-- PROPERTIES -->
+    <section class="container mx-auto px-6 py-16">
+        <div class="text-center mb-12">
+            <span class="text-blue-600 font-semibold uppercase tracking-widest">Featured</span>
+            <h2 class="text-4xl font-bold mt-2">Premium Properties</h2>
+        </div>
+        <div id="property-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    </section>
+</main>
+
+<!-- ===================== APPLY MODAL ===================== -->
+<div id="modal-overlay" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="modal-content" class="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
+        <div class="bg-blue-600 text-white p-6 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 bg-white/20 rounded-full"><i class="fas fa-times"></i></button>
+            <h2 class="text-3xl font-bold">Apply Now</h2>
+            <p class="text-blue-100 mt-2">Complete your property application</p>
+        </div>
+        <form id="apply-form" class="p-6 space-y-5">
+            <input type="text" placeholder="Full Name" required class="input-box w-full px-4 py-3 border border-gray-200 rounded-2xl outline-none">
+            <input type="email" placeholder="Email Address" required class="input-box w-full px-4 py-3 border border-gray-200 rounded-2xl outline-none">
+            <input type="tel" placeholder="Phone Number" required class="input-box w-full px-4 py-3 border border-gray-200 rounded-2xl outline-none">
+            <textarea rows="4" placeholder="Tell us about yourself..." class="input-box w-full px-4 py-3 border border-gray-200 rounded-2xl outline-none"></textarea>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-2xl font-semibold transition">Submit Application</button>
+        </form>
+    </div>
+</div>
+
+<!-- ===================== EMI CALCULATOR MODAL ===================== -->
+<div id="emi-modal-overlay" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="emi-modal-content" class="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
+        <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white p-6 relative">
+            <button onclick="closeEmiModal()" class="absolute top-4 right-4 w-9 h-9 bg-white/20 rounded-full hover:bg-white/30 transition"><i class="fas fa-times"></i></button>
+            <h2 class="text-2xl font-bold"><i class="fas fa-calculator mr-2"></i>EMI Calculator</h2>
+            <p id="emi-property-name" class="text-blue-100 mt-1 text-sm"></p>
+        </div>
+        <div class="p-6 space-y-5">
+            <!-- Property Buy Price -->
+            <div>
+                <label class="text-sm font-semibold text-gray-700 flex justify-between">
+                    <span>Property Value</span>
+                    <span id="emi-price-label" class="text-blue-600"></span>
+                </label>
+                <input type="range" id="emi-price" class="range-slider mt-2" min="500000" max="50000000" step="100000">
+            </div>
+            <!-- Down Payment -->
+            <div>
+                <label class="text-sm font-semibold text-gray-700 flex justify-between">
+                    <span>Down Payment (%)</span>
+                    <span id="emi-down-label" class="text-blue-600">20%</span>
+                </label>
+                <input type="range" id="emi-down" class="range-slider mt-2" min="5" max="50" step="1" value="20">
+            </div>
+            <!-- Interest Rate -->
+            <div>
+                <label class="text-sm font-semibold text-gray-700 flex justify-between">
+                    <span>Interest Rate (% p.a.)</span>
+                    <span id="emi-rate-label" class="text-blue-600">8.5%</span>
+                </label>
+                <input type="range" id="emi-rate" class="range-slider mt-2" min="5" max="20" step="0.1" value="8.5">
+            </div>
+            <!-- Tenure -->
+            <div>
+                <label class="text-sm font-semibold text-gray-700 flex justify-between">
+                    <span>Loan Tenure (Years)</span>
+                    <span id="emi-tenure-label" class="text-blue-600">20 yrs</span>
+                </label>
+                <input type="range" id="emi-tenure" class="range-slider mt-2" min="1" max="30" step="1" value="20">
+            </div>
+
+            <!-- Result Box -->
+            <div class="emi-result-box mt-2">
+                <p class="text-sm text-blue-100 mb-1">Monthly EMI</p>
+                <p id="emi-monthly" class="text-4xl font-extrabold">₹0</p>
+                <div class="grid grid-cols-3 gap-3 mt-4 text-center">
+                    <div>
+                        <p class="text-xs text-blue-200">Loan Amount</p>
+                        <p id="emi-loan-amt" class="font-bold text-white text-sm">₹0</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-blue-200">Total Interest</p>
+                        <p id="emi-interest" class="font-bold text-white text-sm">₹0</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-blue-200">Total Payment</p>
+                        <p id="emi-total" class="font-bold text-white text-sm">₹0</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-400 text-center">* Estimates only. Actual EMI may vary by lender.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SUCCESS TOAST -->
+<div id="toast" class="fixed top-6 right-6 bg-green-500 text-white px-6 py-4 rounded-2xl shadow-2xl hidden z-50">
+    <div class="flex items-center gap-3">
+        <i class="fas fa-check-circle text-3xl"></i>
+        <div>
+            <h3 class="font-bold">Application Submitted</h3>
+            <p class="text-sm">We will contact you soon</p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+
+// ===================== PROPERTY DATA =====================
+const properties = [
+    {
+        title: "Luxury Penthouse",
+        location: "New York",
+        price: "$4,500/mo",
+        rentMonthly: 4500,
+        type: "Apartment",
+        bhk: "3 BHK",
+        beds: 3,
+        baths: 2,
+        size: "2,200 sq ft",
+        parking: "2 Covered Slots",
+        emiBase: 8500000,
+        facilities: ["Swimming Pool", "Gym", "24/7 Security", "Elevator", "Concierge"],
+        image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688"
+    },
+    {
+        title: "Modern Villa",
+        location: "Miami",
+        price: "$7,200/mo",
+        rentMonthly: 7200,
+        type: "Villa",
+        bhk: "4 BHK",
+        beds: 4,
+        baths: 3,
+        size: "3,800 sq ft",
+        parking: "3 Open + 1 Garage",
+        emiBase: 15000000,
+        facilities: ["Private Pool", "Garden", "Home Theatre", "Smart Home", "Solar Panels"],
+        image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994"
+    },
+    {
+        title: "Beach House",
+        location: "California",
+        price: "$8,900/mo",
+        rentMonthly: 8900,
+        type: "Villa",
+        bhk: "5 BHK",
+        beds: 5,
+        baths: 4,
+        size: "4,500 sq ft",
+        parking: "4 Open Slots",
+        emiBase: 20000000,
+        facilities: ["Beach Access", "Infinity Pool", "BBQ Area", "Gym", "Guest Suite"],
+        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750"
+    },
+    {
+        title: "Premium Sky Villa",
+        location: "Bandra West, Mumbai, Maharashtra 400050",
+        price: "₹1,85,000/mo",
+        rentMonthly: 185000,
+        type: "Apartment",
+        bhk: "4 BHK",
+        beds: 4,
+        baths: 3,
+        size: "3,200 sq ft",
+        parking: "2 Covered Slots (Stilt)",
+        emiBase: 65000000,
+        facilities: ["Rooftop Pool", "Gym", "24/7 Security", "Power Backup", "Club House"],
+        image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
+    },
+    {
+        title: "Heritage Bungalow",
+        location: "Koramangala 5th Block, Bengaluru, Karnataka 560095",
+        price: "₹95,000/mo",
+        rentMonthly: 95000,
+        type: "Bungalow",
+        bhk: "3 BHK",
+        beds: 3,
+        baths: 2,
+        size: "2,400 sq ft",
+        parking: "2 Open Slots",
+        emiBase: 32000000,
+        facilities: ["Garden", "Modular Kitchen", "CCTV", "Rain Harvesting", "Solar Power"],
+        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+    },
+    {
+        title: "Golf View Apartment",
+        location: "DLF Phase 2, Gurugram, Haryana 122002",
+        price: "₹1,20,000/mo",
+        rentMonthly: 120000,
+        type: "Apartment",
+        bhk: "4 BHK",
+        beds: 4,
+        baths: 3,
+        size: "2,900 sq ft",
+        parking: "3 Covered Slots",
+        emiBase: 48000000,
+        facilities: ["Golf Course View", "Swimming Pool", "Gymnasium", "Concierge", "Valet Parking"],
+        image: "https://images.unsplash.com/photo-1613977257363-707ba9348227"
+    },
+    {
+        title: "Luxury Lake Villa",
+        location: "Jubilee Hills Rd No. 10, Hyderabad, Telangana 500033",
+        price: "₹1,50,000/mo",
+        rentMonthly: 150000,
+        type: "Villa",
+        bhk: "5 BHK",
+        beds: 5,
+        baths: 4,
+        size: "5,000 sq ft",
+        parking: "4 Open + 1 Garage",
+        emiBase: 75000000,
+        facilities: ["Private Lake View", "Home Theatre", "Smart Home", "Infinity Pool", "Servant Quarter"],
+        image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde"
+    },
+    {
+        title: "Sea Face Penthouse",
+        location: "Marine Drive, Churchgate, Mumbai, Maharashtra 400020",
+        price: "₹3,50,000/mo",
+        rentMonthly: 350000,
+        type: "Penthouse",
+        bhk: "5 BHK",
+        beds: 5,
+        baths: 5,
+        size: "6,500 sq ft",
+        parking: "3 Reserved Slots",
+        emiBase: 120000000,
+        facilities: ["Sea View", "Private Terrace", "Jacuzzi", "Home Automation", "Butler Service"],
+        image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2"
+    },
+    {
+        title: "Eco Smart Home",
+        location: "Whitefield Main Rd, Bengaluru, Karnataka 560066",
+        price: "₹65,000/mo",
+        rentMonthly: 65000,
+        type: "Villa",
+        bhk: "3 BHK",
+        beds: 3,
+        baths: 2,
+        size: "1,800 sq ft",
+        parking: "2 EV Charging Slots",
+        emiBase: 18000000,
+        facilities: ["Solar Panels", "EV Charging", "Rainwater Harvesting", "Smart Locks", "Garden"],
+        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64"
+    },
+    {
+        title: "Royal Haveli",
+        location: "C-Scheme, Jaipur, Rajasthan 302001",
+        price: "₹80,000/mo",
+        rentMonthly: 80000,
+        type: "Haveli",
+        bhk: "4 BHK",
+        beds: 4,
+        baths: 3,
+        size: "4,200 sq ft",
+        parking: "3 Open Slots",
+        emiBase: 28000000,
+        facilities: ["Heritage Architecture", "Courtyard", "Rooftop Terrace", "AC Rooms", "24/7 Guard"],
+        image: "https://images.unsplash.com/photo-1587474260584-136574528ed5"
+    },
+    {
+        title: "Tech Park Residency",
+        location: "Hinjewadi Phase 1, Pune, Maharashtra 411057",
+        price: "₹55,000/mo",
+        rentMonthly: 55000,
+        type: "Apartment",
+        bhk: "3 BHK",
+        beds: 3,
+        baths: 2,
+        size: "1,650 sq ft",
+        parking: "2 Covered Slots",
+        emiBase: 14500000,
+        facilities: ["Swimming Pool", "Gym", "Jogging Track", "Supermarket", "Power Backup"],
+        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00"
+    },
+    {
+        title: "Riverside Duplex",
+        location: "Alipore, Kolkata, West Bengal 700027",
+        price: "₹70,000/mo",
+        rentMonthly: 70000,
+        type: "Duplex",
+        bhk: "4 BHK",
+        beds: 4,
+        baths: 3,
+        size: "3,000 sq ft",
+        parking: "2 Covered + 1 Open",
+        emiBase: 22000000,
+        facilities: ["River View", "Terrace Garden", "Modular Kitchen", "Club House", "CCTV Security"],
+        image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b"
+    },
+    {
+        title: "Garden City Retreat",
+        location: "Indiranagar 100 Feet Rd, Bengaluru, Karnataka 560038",
+        price: "₹1,10,000/mo",
+        rentMonthly: 110000,
+        type: "Villa",
+        bhk: "4 BHK",
+        beds: 4,
+        baths: 3,
+        size: "3,500 sq ft",
+        parking: "3 Covered Slots",
+        emiBase: 42000000,
+        facilities: ["Private Pool", "Landscaped Garden", "Home Office", "Smart Home", "Generator Backup"],
+        image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d"
+    }
+];
+
+const propertyGrid = document.getElementById("property-grid");
+
+function loadProperties() {
+    propertyGrid.innerHTML = "";
+    properties.forEach((p, index) => {
+        const card = document.createElement("div");
+        card.className = "property-card bg-white rounded-3xl overflow-hidden shadow-lg";
+        card.style.animation = `slideUp 0.7s ease forwards ${index * 0.2}s`;
+        card.style.opacity = "0";
+
+        const facilityTags = p.facilities.map(f => `<span class="facility-tag">${f}</span>`).join('');
+
+        card.innerHTML = `
+            <div class="overflow-hidden relative">
+                <img src="${p.image}" class="w-full h-64 object-cover">
+                <span class="absolute top-4 left-4 bg-blue-600 text-white px-4 py-1 rounded-full text-sm">${p.type}</span>
+                <span class="absolute top-4 right-4 bg-white text-blue-700 px-3 py-1 rounded-full text-sm font-bold shadow">${p.bhk}</span>
+            </div>
+
+            <div class="p-6">
+                <!-- Title + Price -->
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-xl font-bold">${p.title}</h3>
+                        <p class="text-gray-500 mt-1 text-sm"><i class="fas fa-location-dot mr-1"></i>${p.location}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-blue-600 text-xl font-bold">${p.price}</div>
+                        <div class="text-xs text-gray-400">Monthly Rent</div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-4 gap-2 mb-4">
+                    <div class="stat-box">
+                        <div class="val">${p.beds}</div>
+                        <div class="lbl"><i class="fas fa-bed"></i> Beds</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="val">${p.baths}</div>
+                        <div class="lbl"><i class="fas fa-bath"></i> Baths</div>
+                    </div>
+                    <div class="stat-box col-span-2">
+                        <div class="val text-sm">${p.size}</div>
+                        <div class="lbl"><i class="fas fa-vector-square"></i> Area</div>
+                    </div>
+                </div>
+
+                <!-- Parking -->
+                <div class="flex items-center gap-2 mb-3 text-sm text-gray-600 bg-gray-50 rounded-xl px-3 py-2">
+                    <i class="fas fa-car text-blue-500"></i>
+                    <span class="font-medium">Parking:</span>
+                    <span>${p.parking}</span>
+                </div>
+
+                <!-- Facilities -->
+                <div class="mb-4">
+                    <p class="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-2">Facilities</p>
+                    <div class="flex flex-wrap gap-2">${facilityTags}</div>
+                </div>
+
+                <!-- EMI Preview -->
+                <div class="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 mb-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500">Est. Buy Price</p>
+                            <p class="font-bold text-gray-700">${formatINR(p.emiBase)}</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs text-gray-500">EMI from</p>
+                            <p class="font-bold text-blue-600">${calcEMIPreview(p.emiBase)}/mo</p>
+                        </div>
+                        <button onclick="openEmiModal(${index})" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-xl text-sm font-semibold transition btnshine">
+                            <i class="fas fa-calculator mr-1"></i>EMI Calc
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button onclick="openModal()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition font-semibold">
+                        <i class="fas fa-file-alt mr-1"></i>Apply
+                    </button>
+                    <button onclick="openEmiModal(${index})" class="flex-1 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-xl transition font-semibold">
+                        <i class="fas fa-calculator mr-1"></i>EMI
+                    </button>
+                </div>
+            </div>
+        `;
+        propertyGrid.appendChild(card);
+    });
+}
+
+function formatINR(n) {
+    if (n >= 10000000) return '₹' + (n / 10000000).toFixed(1) + ' Cr';
+    if (n >= 100000) return '₹' + (n / 100000).toFixed(1) + ' L';
+    return '₹' + n.toLocaleString('en-IN');
+}
+
+function calcEMIPreview(price) {
+    const loanAmt = price * 0.80;
+    const r = 8.5 / 12 / 100;
+    const n = 240;
+    const emi = loanAmt * r * Math.pow(1+r,n) / (Math.pow(1+r,n) - 1);
+    return '₹' + Math.round(emi).toLocaleString('en-IN');
+}
+
+loadProperties();
+
+// ===================== AUTH =====================
+const authSection = document.getElementById("auth-section");
+const appSection = document.getElementById("app-section");
+const loginForm = document.getElementById("login-form");
+const registerForm = document.getElementById("register-form");
+
+function switchTab(tab) {
+    const slider = document.getElementById("toggle-slider");
+    if (tab === "login") {
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+        slider.style.transform = "translateX(0%)";
+    } else {
+        loginForm.classList.add("hidden");
+        registerForm.classList.remove("hidden");
+        slider.style.transform = "translateX(100%)";
+    }
+}
+
+// ===================== REGISTER =====================
+registerForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const name = document.getElementById("reg-name").value;
+    const email = document.getElementById("reg-email").value;
+    const password = document.getElementById("reg-password").value;
+    const confirm = document.getElementById("reg-confirm").value;
+
+    if (password !== confirm) {
+        registerForm.classList.add("shake");
+        setTimeout(() => registerForm.classList.remove("shake"), 500);
+        return;
+    }
+
+    const btn = document.getElementById("register-btn");
+    btn.innerHTML = `<span class="loader"></span>`;
+    btn.disabled = true;
+
+    setTimeout(() => {
+        const user = { name, email, password };
+        localStorage.setItem("rentspaceUser", JSON.stringify(user));
+
+        const popup = document.createElement("div");
+        popup.className = "fixed inset-0 bg-black/70 z-[9999] flex items-center justify-center";
+        popup.innerHTML = `
+            <div class="bg-white rounded-3xl p-10 text-center success-popup glow-success max-w-sm w-full shadow-2xl">
+                <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-check text-5xl text-green-500"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-3">Registered Successfully</h2>
+                <p class="text-gray-500 mb-6">Your account has been created successfully</p>
+                <button id="continueBtn" class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-2xl font-semibold transition">Continue</button>
+            </div>
+        `;
+        document.body.appendChild(popup);
+
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement("div");
+            particle.classList.add("particle");
+            particle.style.left = Math.random() * window.innerWidth + "px";
+            particle.style.top = window.innerHeight + "px";
+            particle.style.background = `hsl(${Math.random() * 360},100%,50%)`;
+            particle.style.animationDuration = (Math.random() * 2 + 2) + "s";
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 3000);
+        }
+
+        document.getElementById("continueBtn").addEventListener("click", () => {
+            popup.remove();
+            registerForm.reset();
+            btn.innerHTML = "Create Account";
+            btn.disabled = false;
+            switchTab("login");
+        });
+    }, 1800);
+});
+
+// ===================== LOGIN =====================
+loginForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+    const savedUser = JSON.parse(localStorage.getItem("rentspaceUser"));
+
+    if (!savedUser) { alert("No account found"); return; }
+    if (email === savedUser.email && password === savedUser.password) {
+        authSection.classList.add("hidden");
+        appSection.classList.remove("hidden");
+        document.getElementById("nav-user-name").innerText = savedUser.name;
+    } else {
+        alert("Invalid credentials");
+    }
+});
+
+// ===================== APPLY MODAL =====================
+const modalOverlay = document.getElementById("modal-overlay");
+function openModal() { modalOverlay.classList.remove("hidden"); }
+function closeModal() { modalOverlay.classList.add("hidden"); }
+
+const applyForm = document.getElementById("apply-form");
+applyForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    closeModal();
+    const toast = document.getElementById("toast");
+    toast.classList.remove("hidden");
+    toast.classList.add("toast-show");
+    setTimeout(() => toast.classList.add("hidden"), 3000);
+    applyForm.reset();
+});
+
+// ===================== EMI MODAL =====================
+const emiOverlay = document.getElementById("emi-modal-overlay");
+let currentEmiBase = 10000000;
+
+function openEmiModal(idx) {
+    const p = properties[idx];
+    currentEmiBase = p.emiBase;
+    document.getElementById("emi-property-name").textContent = p.title + " — " + p.location;
+
+    const priceSlider = document.getElementById("emi-price");
+    priceSlider.min = Math.round(p.emiBase * 0.5);
+    priceSlider.max = Math.round(p.emiBase * 2);
+    priceSlider.value = p.emiBase;
+
+    document.getElementById("emi-down").value = 20;
+    document.getElementById("emi-rate").value = 8.5;
+    document.getElementById("emi-tenure").value = 20;
+
+    updateEMI();
+    emiOverlay.classList.remove("hidden");
+}
+
+function closeEmiModal() { emiOverlay.classList.add("hidden"); }
+
+function updateEMI() {
+    const price = parseFloat(document.getElementById("emi-price").value);
+    const downPct = parseFloat(document.getElementById("emi-down").value);
+    const rate = parseFloat(document.getElementById("emi-rate").value);
+    const tenureYrs = parseFloat(document.getElementById("emi-tenure").value);
+
+    document.getElementById("emi-price-label").textContent = formatINR(price);
+    document.getElementById("emi-down-label").textContent = downPct + "%";
+    document.getElementById("emi-rate-label").textContent = rate + "%";
+    document.getElementById("emi-tenure-label").textContent = tenureYrs + " yrs";
+
+    const loanAmt = price * (1 - downPct / 100);
+    const r = rate / 12 / 100;
+    const n = tenureYrs * 12;
+    const emi = n === 0 ? 0 : loanAmt * r * Math.pow(1+r,n) / (Math.pow(1+r,n) - 1);
+    const totalPayment = emi * n;
+    const totalInterest = totalPayment - loanAmt;
+
+    document.getElementById("emi-monthly").textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+    document.getElementById("emi-loan-amt").textContent = formatINR(loanAmt);
+    document.getElementById("emi-interest").textContent = formatINR(totalInterest);
+    document.getElementById("emi-total").textContent = formatINR(totalPayment);
+}
+
+["emi-price","emi-down","emi-rate","emi-tenure"].forEach(id => {
+    document.getElementById(id).addEventListener("input", updateEMI);
+});
+
+// ===================== LOGOUT =====================
+function logout() {
+    appSection.classList.add("hidden");
+    authSection.classList.remove("hidden");
+}
+
+// ===================== AUTO LOGIN =====================
+window.addEventListener("load", () => {
+    const savedUser = JSON.parse(localStorage.getItem("rentspaceUser"));
+    if (savedUser) {
+        authSection.classList.add("hidden");
+        appSection.classList.remove("hidden");
+        document.getElementById("nav-user-name").innerText = savedUser.name;
+    }
+});
+
+</script>
+</body>
+</html>
