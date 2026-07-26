@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Form</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <form>
+
+            <h2>Contact Form</h2>
+
+            <!-- Name -->
+            <label>Full Name</label>
+            <input type="text" placeholder="Enter your name" required>
+
+            <!-- Email -->
+            <label>Email Address</label>
+            <input type="email" placeholder="Enter your email" required>
+
+            <!-- Password -->
+            <label>Password</label>
+            <input type="password" placeholder="Enter password" required>
+
+            <!-- Gender -->
+            <label>Gender</label>
+
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="gender">
+                    Male
+                </label>
+
+                <label>
+                    <input type="radio" name="gender">
+                    Female
+                </label>
+
+                <label>
+                    <input type="radio" name="gender">
+                    Other
+                </label>
+            </div>
+
+            <!-- Skills -->
+            <label>Skills</label>
+
+            <div class="checkbox-group">
+
+                <label>
+                    <input type="checkbox">
+                    HTML
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    CSS
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    JavaScript
+                </label>
+
+            </div>
+
+            <!-- Country -->
+            <label>Country</label>
+
+            <select>
+                <option>India</option>
+                <option>USA</option>
+                <option>UK</option>
+                <option>Canada</option>
+            </select>
+
+            <!-- Message -->
+            <label>Message</label>
+
+            <textarea rows="5" placeholder="Write your message"></textarea>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
